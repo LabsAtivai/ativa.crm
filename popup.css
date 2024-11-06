@@ -1,0 +1,93 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    width: 300px;
+  }
+  
+  .header {
+    background-color: #FF6600; /* Cor de fundo laranja */
+    color: #FFFFFF;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .header .logo {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 5px;
+  }
+  
+  h1 {
+    font-size: 18px;
+    margin: 5px 0;
+  }
+  
+  p {
+    font-size: 14px;
+    margin: 0;
+  }
+  
+  .content {
+    padding: 15px;
+  }
+  
+  label {
+    font-weight: bold;
+    font-size: 12px;
+    margin-top: 10px;
+    display: block;
+  }
+  
+  input[type="text"], textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  textarea {
+    height: 60px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  button#salvarContato {
+    background-color: #007BFF; /* Azul para o botão de salvar contato */
+    margin-bottom: 10px;
+  }
+  
+  button#abrirMensagem {
+    background-color: #D3D3D3;
+    color: #000;
+    margin-top: 10px;
+    font-size: 12px;
+  }
+  
+  .message {
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    margin-top: 10px;
+  }
+  
+  .message p {
+    font-size: 12px;
+    margin: 5px 0;
+  }
+  

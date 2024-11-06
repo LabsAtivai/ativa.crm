@@ -1,0 +1,19 @@
+{
+    "name": "nome-do-seu-projeto",
+    "version": "1.0.0",
+    "description": "Extensão do Chrome para o Ativa CRM",
+    "main": "background.js",
+    "scripts": {
+        "start": "node background.js",
+        "background": "node background.js"
+    },
+    "dependencies": {
+        "@googleapis/gmail": "^4.0.0",
+        "axios": "^0.27.2",
+        "dayjs": "^1.11.13"
+    },
+    "devDependencies": {
+        "eslint": "^8.57.1",
+        "prettier": "^2.8.8"
+    }
+}

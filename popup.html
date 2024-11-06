@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"> <!-- Meta charset no cabeçalho -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Meta viewport no cabeçalho -->
+  <title>CRM Ativa</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="header">
+    <img src="icon.png" alt="CRM Ativa Logo" class="logo">
+    <h1>CRM ATIVA</h1>
+    <p>Histórico de Mensagens e Notas</p>
+  </div>
+  
+  <div class="content">
+    <label for="nomeContato">Nome do Contato</label>
+    <input type="text" id="nomeContato" placeholder="Digite o nome do contato" title="Nome do Contato" value="Gustavo Mazio">
+    
+    <label for="emailContato">Email do Contato</label>
+    <input type="text" id="emailContato" placeholder="Digite o email do contato" title="Email do Contato" value="gustavo.mazio@ativa.ai">
+    
+    <label for="telefoneContato">Telefone do Contato</label>
+    <input type="text" id="telefoneContato" placeholder="Digite o telefone do contato" title="Telefone do Contato">
+    
+    <button id="salvarContato" title="Salvar Contato">Salvar Contato</button>
+
+    <label for="blocoDeNotas">Bloco de Notas</label>
+    <textarea id="blocoDeNotas" placeholder="Digite notas sobre o contato" title="Bloco de Notas"></textarea>
+    
+    <div class="message">
+      <p><strong>Assunto:</strong> Boa noite</p>
+      <p><strong>Data:</strong> 03/07/2024 14:11</p>
+      <p><strong>Conversa:</strong> Olá</p>
+      <p>Gustavo Mazio<br>Analista Técnico<br>11947836846<br>Ativa.ai</p>
+      <p><strong>Etiquetas:</strong> 📌 1. Lead</p>
+      <button id="abrirMensagem" title="Abrir Mensagem">Abrir Mensagem</button>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
