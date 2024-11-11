@@ -1,26 +1,66 @@
 chrome.runtime.onInstalled.addListener(() => {
-    console.log('Ativa CRM extension installed!');
+  console.log("Ativa CRM extension installed!");
+});
+
+async function getAuthToken() {
+  return new Promise((resolve, reject) => {
+      chrome.identity.getAuthToken({ interactive: true }, (token) => {
+          if (chrome.runtime.lastError || !token) {
+              console.error("Auth token error:", chrome.runtime.lastError);
+              reject(chrome.runtime.lastError);
+              return;
+          }
+          console.log("Token obtained:", token);
+          resolve(token);
+      });
   });
-  
-  // Função para autenticação OAuth2 com a API do Gmail
-  async function authenticateGmail() {
-    const authUrl = 'https://accounts.google.com/o/oauth2/auth';
-    // Completar com o processo de OAuth2 para conectar à API Gmail
+}
+
+// Função para buscar o histórico de e-mails de um contato específico
+async function getContactEmailHistory(contactEmail) {
+  const token = await getAuthToken();
+  const response = await fetch(
+      `https://gmail.googleapis.com/gmail/v1/users/me/messages?q=from:${contactEmail}`,
+      {
+          headers: { Authorization: `Bearer ${token}` },
+      }
+  );
+
+  const data = await response.json();
+  if (!data.messages) {
+      return []; // Retorna vazio se não houver mensagens
   }
-  
-  // Obter e manipular dados do Gmail
-  async function getEmailHistory(senderEmail) {
-    // Substituir pelo uso de OAuth2 para acesso a dados da API Gmail
+
+  const emailHistory = [];
+  for (const message of data.messages) {
+      const msgDetail = await fetch(
+          `https://gmail.googleapis.com/gmail/v1/users/me/messages/${message.id}`,
+          {
+              headers: { Authorization: `Bearer ${token}` },
+          }
+      );
+      const msgData = await msgDetail.json();
+      emailHistory.push({
+          from: msgData.payload.headers.find((header) => header.name === "From").value,
+          subject: msgData.payload.headers.find((header) => header.name === "Subject").value,
+          date: msgData.payload.headers.find((header) => header.name === "Date").value,
+          snippet: msgData.snippet,
+      });
   }
-// Armazena uma nota para o contato
-function saveNoteForContact(email, note) {
-    const key = `notas_${email}`;
-    chrome.storage.local.set({ [key]: note }, () => {
-      console.log('Nota salva!');
-    });
+  return emailHistory;
+}
+
+// Ouve as mensagens do content script
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === "getContactEmailHistory" && message.email) {
+      getContactEmailHistory(message.email)
+          .then((history) => {
+              sendResponse({ history });
+          })
+          .catch((error) => {
+              console.error("Error fetching contact email history:", error);
+              sendResponse({ error: error.message });
+          });
+      return true; // Mantém o canal aberto para resposta assíncrona
   }
-  chrome.runtime.onInstalled.addListener(() => {
-    console.log("A extensão CRM Ativa foi instalada.");
-  });
-  
-    
+});
