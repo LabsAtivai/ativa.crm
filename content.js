@@ -7,12 +7,21 @@ function detectEmailAndSendToBackground() {
         const email = emailElement.getAttribute("email"); // Obtém o endereço de e-mail do contato
         if (email) {
             // Envia o endereço de e-mail do contato aberto para o background.js
-            chrome.runtime.sendMessage({ type: "getContactEmailHistory", email });
+            chrome.runtime.sendMessage({ type: "getContactEmailHistory", email }, (response) => {
+                if (chrome.runtime.lastError) {
+                    console.error("Erro ao enviar mensagem para o background.js:", chrome.runtime.lastError);
+                } else if (response && response.error) {
+                    console.error("Erro ao obter histórico de e-mails:", response.error);
+                } else {
+                    console.log("Histórico de e-mails recebido:", response.history);
+                    // Aqui você pode manipular o histórico de e-mails conforme necessário
+                }
+            });
         }
     }
 }
 
-// Monitora a abertura de e-mails
+// Observa mudanças na DOM para detectar e-mails conforme são abertos
 const observer = new MutationObserver(() => {
     detectEmailAndSendToBackground();
 });
@@ -23,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     detectEmailAndSendToBackground();
 });
 
-// Injeta o `injected.js` na página apenas uma vez
+// Injeta o `injected.js` na página, evitando múltiplas injeções
 function injectScript(file) {
     if (document.getElementById("injectedScript")) {
         // Se o script já foi injetado, não o injete novamente
@@ -41,7 +50,16 @@ function injectScript(file) {
 window.addEventListener("message", (event) => {
     if (event.source !== window) return; // Ignora mensagens de outras fontes
     if (event.data.type === "emailDetected") {
-        chrome.runtime.sendMessage({ type: "getContactEmailHistory", email: event.data.email });
+        chrome.runtime.sendMessage({ type: "getContactEmailHistory", email: event.data.email }, (response) => {
+            if (chrome.runtime.lastError) {
+                console.error("Erro ao enviar mensagem para o background.js:", chrome.runtime.lastError);
+            } else if (response && response.error) {
+                console.error("Erro ao obter histórico de e-mails:", response.error);
+            } else {
+                console.log("Histórico de e-mails recebido:", response.history);
+                // Manipule o histórico de e-mails conforme necessário
+            }
+        });
     }
 });
 

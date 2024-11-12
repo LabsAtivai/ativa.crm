@@ -1,35 +1,34 @@
 {
-  "manifest_version": 3,
-  "name": "Ativa CRM Extension",
-  "version": "1.0",
-  "description": "CRMATIVA",
-  "permissions": [
-      "identity",
-      "scripting",
-      "activeTab",
-      "storage"
-  ],
-  "oauth2": {
-      "client_id": "1064862887292-uihf9br1k1qp5qiudvn9mfj6fpv4cavr.apps.googleusercontent.com",
-      "scopes": [
-          "https://www.googleapis.com/auth/gmail.readonly"
-      ]
-  },
-  "background": {
-      "service_worker": "background.js"
-  },
-  "host_permissions": [
-      "*://mail.google.com/*"
-  ],
-  "content_scripts": [
-      {
-          "matches": ["*://mail.google.com/*"],
-          "js": ["content.js"]
-      }
-  ],
-  "action": {
-      "default_popup": "template.html",
-      "default_icon": "icon.png"
-      
-  }
+    "manifest_version": 3,
+    "name": "Ativa CRM Extension",
+    "version": "1.0",
+    "description": "CRMATIVA",
+    "permissions": [
+        "identity",
+        "scripting",
+        "activeTab",
+        "storage"
+    ],
+    "oauth2": {
+        "client_id": "1064862887292-uihf9br1k1qp5qiudvn9mfj6fpv4cavr.apps.googleusercontent.com",
+        "scopes": [
+            "https://www.googleapis.com/auth/gmail.readonly"
+        ]
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "host_permissions": [
+        "*://mail.google.com/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": ["*://mail.google.com/*"],
+            "js": ["content.js"]
+        }
+    ],
+    "action": {
+        "default_popup": "template.html",
+        "default_icon": "icon.png"
+    }
 }
