@@ -1,34 +1,28 @@
 {
-    "manifest_version": 3,
-    "name": "Ativa CRM Extension",
+    "name": "Nome da sua extensão",
     "version": "1.0",
-    "description": "CRMATIVA",
-    "permissions": [
-        "identity",
-        "scripting",
-        "activeTab",
-        "storage"
-    ],
+    "manifest_version": 3,
+    "permissions": ["identity", "activeTab", "scripting", "storage", "tabs"],
     "oauth2": {
-        "client_id": "1064862887292-uihf9br1k1qp5qiudvn9mfj6fpv4cavr.apps.googleusercontent.com",
-        "scopes": [
-            "https://www.googleapis.com/auth/gmail.readonly"
-        ]
+      "client_id": "1064862887292-uihf9br1k1qp5qiudvn9mfj6fpv4cavr.apps.googleusercontent.com",
+      "scopes": [
+        "https://www.googleapis.com/auth/gmail.readonly",
+        "https://www.googleapis.com/auth/gmail.modify"
+      ]
     },
     "background": {
-        "service_worker": "background.js"
+      "service_worker": "background.js"
     },
-    "host_permissions": [
-        "*://mail.google.com/*"
-    ],
+    "host_permissions": ["*://mail.google.com/*"],
     "content_scripts": [
-        {
-            "matches": ["*://mail.google.com/*"],
-            "js": ["content.js"]
-        }
+      {
+        "matches": ["*://mail.google.com/*"],
+        "js": ["content.js"]
+      }
     ],
     "action": {
-        "default_popup": "template.html",
-        "default_icon": "icon.png"
+      "default_popup": "template.html",
+      "default_icon": "icon.png"
     }
-}
+  }
+  

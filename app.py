@@ -7,9 +7,9 @@ from googleapiclient.discovery import build
 app = Flask(__name__)
 
 # Configurações e variáveis globais
-SCOPES = ["https://www.googleapis.com/auth/gmail.readonly", "https://www.googleapis.com/auth/gmail.modify"]
+SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
 TOKEN_PATH = "token.json"
-CREDENTIALS_PATH = "credentials.json"  # Certifique-se de que este caminho esteja correto e acessível
+CREDENTIALS_PATH = "credentials.json"  # Atualize para apontar para o arquivo correto
 
 def authenticate():
     """Autentica e retorna um cliente OAuth2 com credenciais."""
@@ -99,38 +99,6 @@ def oauth2callback():
     
     return jsonify(email_history)
 
-@app.route("/get_contact_email_history", methods=["POST"])
-def get_contact_email_history():
-    """Obtém o histórico de e-mails de um contato específico."""
-    email = request.json.get("email")
-    creds = authenticate()
-    if not creds or isinstance(creds, type(redirect(""))):
-        # Redireciona para a autenticação se `creds` for um redirecionamento
-        return creds
-
-    service = build('gmail', 'v1', credentials=creds)
-    results = service.users().messages().list(userId='me', q=f"from:{email}").execute()
-    messages = results.get('messages', [])
-
-    email_history = []
-    for message in messages:
-        msg = service.users().messages().get(userId='me', id=message['id']).execute()
-        headers = msg.get("payload", {}).get("headers", [])
-        
-        from_address = next((h['value'] for h in headers if h['name'] == 'From'), None)
-        subject = next((h['value'] for h in headers if h['name'] == 'Subject'), None)
-        date = next((h['value'] for h in headers if h['name'] == 'Date'), None)
-        snippet = msg.get("snippet", "")
-
-        email_history.append({
-            'from': from_address,
-            'subject': subject,
-            'date': date,
-            'snippet': snippet,
-            'message_id': message['id']
-        })
-
-    return jsonify(email_history)
-
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
+    
